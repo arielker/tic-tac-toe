@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Board } from "./components/Board";
 import { calculateWinner } from "./utils/calculateWinner";
+import { Box, Button, Typography, Paper, List, ListItem } from "@mui/material";
 
 const App: React.FC = () => {
-  // Store history of boards
   const [history, setHistory] = useState<Array<Array<string | null>>>([
     Array(9).fill(null),
   ]);
@@ -23,46 +23,64 @@ const App: React.FC = () => {
     setCurrentMove(newHistory.length);
   };
 
-  const jumpTo = (move: number) => {
-    setCurrentMove(move);
-  };
+  const jumpTo = (move: number) => setCurrentMove(move);
 
   const winner = calculateWinner(currentBoard);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "40px" }}>
-      <h1>Tic Tac Toe</h1>
-      <Board board={currentBoard} onClick={handleClick} />
-      <h2>
-        {winner
-          ? `Winner: ${winner}`
-          : currentBoard.every(Boolean)
-          ? "Draw!"
-          : `Next Player: ${isXNext ? "X" : "O"}`}
-      </h2>
+    <Box
+      sx={{
+        backgroundColor: "#fffaf0", // creamy white
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        paddingTop: "15vh",
+      }}
+    >
+      <Box display="flex" gap={6}>
+        {/* Board */}
+        <Paper elevation={3} sx={{ padding: 3 }}>
+          <Typography variant="h4" textAlign="center" gutterBottom>
+            Tic Tac Toe
+          </Typography>
+          <Board board={currentBoard} onClick={handleClick} />
+          <Typography variant="h6" textAlign="center" sx={{ marginTop: 2 }}>
+            {winner
+              ? `Winner: ${winner}`
+              : currentBoard.every(Boolean)
+              ? "Draw!"
+              : `Next Player: ${isXNext ? "X" : "O"}`}
+          </Typography>
+          <Box textAlign="center" marginTop={2}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setHistory([Array(9).fill(null)]);
+                setCurrentMove(0);
+              }}
+            >
+              Restart
+            </Button>
+          </Box>
+        </Paper>
 
-      <div style={{ marginTop: "20px" }}>
-        <button
-          style={{ marginBottom: "10px", padding: "5px 15px" }}
-          onClick={() => {
-            setHistory([Array(9).fill(null)]);
-            setCurrentMove(0);
-          }}
-        >
-          Restart
-        </button>
-
-        <ol>
-          {history.map((_, move) => (
-            <li key={move}>
-              <button onClick={() => jumpTo(move)}>
-                {move === 0 ? "Go to game start" : `Go to move #${move}`}
-              </button>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
+        {/* Move History */}
+        <Paper elevation={3} sx={{ padding: 2, minWidth: 180 }}>
+          <Typography variant="h6" gutterBottom>
+            Move History
+          </Typography>
+          <List dense>
+            {history.map((_, move) => (
+              <ListItem key={move} disablePadding>
+                <Button fullWidth onClick={() => jumpTo(move)}>
+                  {move === 0 ? "Game Start" : `Move #${move}`}
+                </Button>
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
+      </Box>
+    </Box>
   );
 };
 

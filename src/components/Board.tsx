@@ -1,5 +1,6 @@
 // components/Board.tsx
 import React from "react";
+import { Box } from "@mui/material";
 import { Square } from "./Square";
 
 type BoardProps = {
@@ -9,26 +10,18 @@ type BoardProps = {
 
 export const Board: React.FC<BoardProps> = ({ board, onClick }) => {
   const renderSquare = (i: number) => (
-    <Square value={board[i]} onClick={() => onClick(i)} />
+    <Square key={i} value={board[i]} onClick={() => onClick(i)} />
   );
 
   return (
-    <div>
-      <div>
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-      </div>
-      <div>
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-      </div>
-      <div>
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-      </div>
-    </div>
+    <Box display="flex" flexDirection="column">
+      {[0, 3, 6].map((row) => (
+        <Box key={row} display="flex" justifyContent="center">
+          {renderSquare(row)}
+          {renderSquare(row + 1)}
+          {renderSquare(row + 2)}
+        </Box>
+      ))}
+    </Box>
   );
 };
