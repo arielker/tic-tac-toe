@@ -84,7 +84,32 @@ const App: React.FC = () => {
         alignItems="flex-start"
         flexDirection={{ xs: "column", md: "row" }} // column on small screens
       >
-        {" "}
+        {/* Scoreboard */}
+        <Paper
+          elevation={3}
+          sx={{
+            padding: 3,
+            minWidth: 140,
+            flexShrink: 0,
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h6" gutterBottom>
+            Scoreboard
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ color: "#004D98", fontWeight: "bold" }}
+          >
+            X Wins: {victories.X}
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ color: "#A50044", fontWeight: "bold" }}
+          >
+            O Wins: {victories.O}
+          </Typography>
+        </Paper>{" "}
         {/* spacing between board and move history */}
         {/* Board */}
         <Paper elevation={3} sx={{ padding: 4 }}>
