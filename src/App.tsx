@@ -32,16 +32,28 @@ const App: React.FC = () => {
   return (
     <Box
       sx={{
-        backgroundColor: "#fffaf0", // creamy white
+        backgroundColor: "#f7f7f7",
         minHeight: "100vh",
+        width: "100vw",
         display: "flex",
         justifyContent: "center",
-        paddingTop: "15vh",
+        alignItems: "flex-start",
+        paddingTop: "10vh",
+        boxSizing: "border-box",
+        overflow: "hidden",
       }}
     >
-      <Box display="flex" gap={6}>
+      <Box
+        display="flex"
+        gap={4}
+        justifyContent="center"
+        alignItems="flex-start"
+        flexDirection={{ xs: "column", md: "row" }} // column on small screens
+      >
+        {" "}
+        {/* spacing between board and move history */}
         {/* Board */}
-        <Paper elevation={3} sx={{ padding: 3 }}>
+        <Paper elevation={3} sx={{ padding: 4 }}>
           <Typography variant="h4" textAlign="center" gutterBottom>
             Tic Tac Toe
           </Typography>
@@ -49,16 +61,16 @@ const App: React.FC = () => {
             board={currentBoard}
             onClick={handleClick}
             winningSquares={winningSquares}
+            size={Math.min(100, window.innerWidth / 15)}
           />
-
-          <Typography variant="h6" textAlign="center" sx={{ marginTop: 2 }}>
+          <Typography variant="h6" textAlign="center" sx={{ marginTop: 3 }}>
             {winner
               ? `Winner: ${winner}`
               : currentBoard.every(Boolean)
               ? "Draw!"
               : `Next Player: ${isXNext ? "X" : "O"}`}
           </Typography>
-          <Box textAlign="center" marginTop={2}>
+          <Box textAlign="center" marginTop={3}>
             <Button
               variant="contained"
               onClick={() => {
@@ -70,9 +82,8 @@ const App: React.FC = () => {
             </Button>
           </Box>
         </Paper>
-
         {/* Move History */}
-        <Paper elevation={3} sx={{ padding: 2, minWidth: 180 }}>
+        <Paper elevation={3} sx={{ padding: 3, minWidth: 180, flexShrink: 0 }}>
           <Typography variant="h6" gutterBottom>
             Move History
           </Typography>

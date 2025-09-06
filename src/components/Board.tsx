@@ -5,12 +5,14 @@ type BoardProps = {
   board: Array<string | null>;
   onClick: (index: number) => void;
   winningSquares?: number[];
+  size?: number; // new prop for square size
 };
 
 export const Board: React.FC<BoardProps> = ({
   board,
   onClick,
   winningSquares = [],
+  size = 60,
 }) => {
   const renderSquare = (i: number) => (
     <Square
@@ -18,6 +20,7 @@ export const Board: React.FC<BoardProps> = ({
       value={board[i]}
       onClick={() => onClick(i)}
       highlight={winningSquares.includes(i)}
+      size={size}
     />
   );
 

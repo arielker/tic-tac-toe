@@ -4,12 +4,14 @@ type SquareProps = {
   value: string | null;
   onClick: () => void;
   highlight?: boolean;
+  size?: number; // new prop
 };
 
 export const Square: React.FC<SquareProps> = ({
   value,
   onClick,
   highlight = false,
+  size = 60,
 }) => {
   const getColor = () => {
     if (value === "X") return "rgb(0, 51, 204)";
@@ -22,11 +24,11 @@ export const Square: React.FC<SquareProps> = ({
       variant="outlined"
       onClick={onClick}
       sx={{
-        width: 60,
-        height: 60,
-        fontSize: "2rem",
-        minWidth: 60,
-        minHeight: 60,
+        width: size,
+        height: size,
+        minWidth: size,
+        minHeight: size,
+        fontSize: size / 1.5,
         color: getColor(),
         border: highlight ? "3px solid gold" : "2px solid #333",
         backgroundColor: highlight ? "rgba(255,215,0,0.2)" : "inherit",
