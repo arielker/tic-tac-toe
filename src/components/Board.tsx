@@ -1,3 +1,4 @@
+// components/Board.tsx
 import React from "react";
 import { Square } from "./Square";
 
@@ -7,8 +8,8 @@ type BoardProps = {
 };
 
 export const Board: React.FC<BoardProps> = ({ board, onClick }) => {
-  const renderSquare = (index: number) => (
-    <Square value={board[index]} onClick={() => onClick(index)} />
+  const renderSquare = (i: number) => (
+    <Square value={board[i]} onClick={() => onClick(i)} />
   );
 
   return (

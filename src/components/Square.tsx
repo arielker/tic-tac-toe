@@ -1,3 +1,4 @@
+// components/Square.tsx
 import React from "react";
 
 type SquareProps = {
@@ -5,19 +6,17 @@ type SquareProps = {
   onClick: () => void;
 };
 
-export const Square: React.FC<SquareProps> = ({ value, onClick }) => {
-  return (
-    <button
-      style={{
-        width: "60px",
-        height: "60px",
-        fontSize: "2rem",
-        margin: "4px",
-        cursor: "pointer",
-      }}
-      onClick={onClick}
-    >
-      {value}
-    </button>
-  );
-};
+export const Square: React.FC<SquareProps> = ({ value, onClick }) => (
+  <button
+    style={{
+      width: "60px",
+      height: "60px",
+      fontSize: "2rem",
+      margin: "4px",
+      cursor: "pointer",
+    }}
+    onClick={onClick}
+  >
+    {value}
+  </button>
+);
