@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Board } from "./components/Board";
-import { calculateWinner } from "./utils/calculateWinner";
+import { calculateWinner, Player } from "./utils/calculateWinner";
 import { Box, Button, Typography, Paper, List, ListItem } from "@mui/material";
 import { getWinningSquares } from "./utils/getWinningSquares";
+import { updateVictory, getVictories } from "./services/api";
 
 const App: React.FC = () => {
-  const [history, setHistory] = useState<Array<Array<string | null>>>([
+  const [history, setHistory] = useState<Array<Array<Player | null>>>([
     Array(9).fill(null),
   ]);
   const [currentMove, setCurrentMove] = useState(0);
@@ -26,8 +27,41 @@ const App: React.FC = () => {
 
   const jumpTo = (move: number) => setCurrentMove(move);
 
-  const winner = calculateWinner(currentBoard);
+  const winner: Player | null = calculateWinner(currentBoard);
   const winningSquares = winner ? getWinningSquares(currentBoard) : [];
+
+  const [victories, setVictories] = useState<{ X: number; O: number }>({
+    X: 0,
+    O: 0,
+  });
+
+  useEffect(() => {
+    const fetchVictories = async () => {
+      try {
+        const data = await getVictories();
+        setVictories(data);
+      } catch (err) {
+        console.error("Error fetching victories:", err);
+      }
+    };
+    fetchVictories();
+  }, []);
+
+  // update victories when game ends
+  useEffect(() => {
+    if (!winner) return; // only run when there *is* a winner
+
+    const handleGameEnd = async () => {
+      try {
+        const data = await updateVictory(winner);
+        setVictories(data.victories); // update UI with new totals
+      } catch (err) {
+        console.error("Error updating victory:", err);
+      }
+    };
+
+    handleGameEnd();
+  }, [winner]); // runs only when `winner` changes
 
   return (
     <Box

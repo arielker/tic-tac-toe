@@ -1,4 +1,6 @@
-export function calculateWinner(squares: Array<string | null>): string | null {
+export type Player = "X" | "O";
+
+export function calculateWinner(squares: Array<Player | null>): Player | null {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
