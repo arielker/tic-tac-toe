@@ -1,46 +1,169 @@
-# Getting Started with Create React App
+# Tic Tac Toe - React & TypeScript
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern Tic Tac Toe web app built with **React**, **TypeScript**, and **Material UI**, featuring:
 
-## Available Scripts
+- Interactive board with **X** and **O** players
+- **Move history** and ability to jump to any previous move
+- **Session score tracking** (current game session)
+- **All-time score tracking** (persisted on the server)
+- Auto-updating **all-time scoreboard** every 3 seconds
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Table of Contents
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [Demo](#demo)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Running the App](#running-the-app)
+- [API Endpoints](#api-endpoints)
+- [Future Improvements](#future-improvements)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+## Demo
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Tic Tac Toe](image.png)
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Interactive Tic Tac Toe board**
+- **Material UI design**: Creamy white background, X in FC Barcelona blue, O in red
+- **Move history panel** with jump-to functionality
+- **Session scoreboard**: Tracks X & O wins in the current session
+- **All-time scoreboard**: Persisted on server and updated automatically
+- **Server-side game history**: Stores all completed games for analytics
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- **Frontend**: React, TypeScript, Material UI
+- **Backend**: Node.js, Express, TypeScript
+- **HTTP Requests**: Axios
+- **State Management**: React Hooks (`useState`, `useEffect`)
+- **Utilities**: Custom hooks for game logic & score management
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Project Structure
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+tic-tac-toe/
+├── src/
+│   ├── components/
+│   │   ├── Board.tsx
+│   │   └── Scoreboard.tsx
+│   ├── hooks/
+│   │   ├── useGame.ts
+│   │   └── useVictories.ts
+│   ├── services/
+│   │   └── api.ts
+│   ├── utils/
+│   │   ├── calculateWinner.ts
+│   │   └── getWinningSquares.ts
+│   ├── App.tsx
+│   └── index.tsx
+├── server/
+│   ├── index.ts
+│   └── routes.ts
+├── package.json
+└── README.md
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Installation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/yourusername/tic-tac-toe.git
+cd tic-tac-toe
+```
+
+2. **Install frontend dependencies**
+
+```bash
+cd tic-tac-toe
+npm install
+```
+
+3. **Install server dependencies**
+
+```bash
+cd server
+npm install
+```
+
+---
+
+## Running the App
+
+1. **Start the server**
+
+```bash
+cd server
+npm run dev
+```
+
+2. **Start the frontend**
+
+```bash
+cd tic-tac-toe
+npm start
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## API Endpoints
+
+### 1. Update victory
+
+- **POST** `/victory/:player`
+- **Params**: `player` – `"X"` or `"O"`
+- **Description**: Increments all-time victory for the specified player.
+- **Response**:
+
+```json
+{
+  "allTimeVictories": {
+    "X": 10,
+    "O": 7
+  }
+}
+```
+
+### 2. Get all-time history
+
+- **GET** `/history`
+- **Description**: Returns an array of all past game winners.
+- **Response**:
+
+```json
+["X", "O", "X", "X", "O"]
+```
+
+---
+
+## Future Improvements
+
+- **Leaderboard table** showing full game history
+- **AI opponent** for single-player mode
+- **Animations** for winning squares
+- **Unit tests** for hooks and utilities
+- **Mobile-friendly design** enhancements
+
+---
+
+## License
+
+MIT License © \[Ariel Kerzhner]
+
+---
