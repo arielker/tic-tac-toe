@@ -13,3 +13,8 @@ export const getVictories = async () => {
   const res = await API.get("/victories");
   return res.data as { X: number; O: number };
 };
+
+export const getHistory = async () => {
+  const res = await API.get("/history");
+  return res.data as Array<"X" | "O">;
+};

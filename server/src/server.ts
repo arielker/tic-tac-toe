@@ -13,17 +13,21 @@ const victories: Record<"X" | "O", number> = {
   X: 0,
   O: 0,
 };
+let history: Array<"X" | "O"> = []; // history of all games
 
 // Route 1: Update victories
 // POST /victory { winner: "X" } or { winner: "O" }
 app.post("/victory", (req: Request, res: Response) => {
   const { winner } = req.body as { winner: "X" | "O" };
-  console.log("Received victory:", winner);
+
   if (winner !== "X" && winner !== "O") {
     return res.status(400).json({ error: "Winner must be 'X' or 'O'" });
   }
 
   victories[winner] += 1;
+
+  // Update game history
+  history.push(winner);
 
   return res.json({ message: `${winner} victory recorded`, victories });
 });
@@ -32,6 +36,10 @@ app.post("/victory", (req: Request, res: Response) => {
 // GET /victories
 app.get("/victories", (_req: Request, res: Response) => {
   return res.json(victories);
+});
+
+app.get("/history", (_req: Request, res: Response) => {
+  return res.json(history);
 });
 
 // Start server
