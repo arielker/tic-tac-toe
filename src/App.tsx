@@ -3,39 +3,65 @@ import { Board } from "./components/Board";
 import { calculateWinner } from "./utils/calculateWinner";
 
 const App: React.FC = () => {
-  const [board, setBoard] = useState<Array<string | null>>(Array(9).fill(null));
-  const [isXNext, setIsXNext] = useState(true);
+  // Store history of boards
+  const [history, setHistory] = useState<Array<Array<string | null>>>([
+    Array(9).fill(null),
+  ]);
+  const [currentMove, setCurrentMove] = useState(0);
+
+  const currentBoard = history[currentMove];
+  const isXNext = currentMove % 2 === 0;
 
   const handleClick = (index: number) => {
-    if (board[index] || calculateWinner(board)) return;
-    const newBoard = [...board];
+    if (currentBoard[index] || calculateWinner(currentBoard)) return;
+
+    const newBoard = [...currentBoard];
     newBoard[index] = isXNext ? "X" : "O";
-    setBoard(newBoard);
-    setIsXNext(!isXNext);
+
+    const newHistory = history.slice(0, currentMove + 1);
+    setHistory([...newHistory, newBoard]);
+    setCurrentMove(newHistory.length);
   };
 
-  const winner = calculateWinner(board);
+  const jumpTo = (move: number) => {
+    setCurrentMove(move);
+  };
+
+  const winner = calculateWinner(currentBoard);
 
   return (
     <div style={{ textAlign: "center", marginTop: "40px" }}>
       <h1>Tic Tac Toe</h1>
-      <Board board={board} onClick={handleClick} />
+      <Board board={currentBoard} onClick={handleClick} />
       <h2>
         {winner
           ? `Winner: ${winner}`
-          : board.every(Boolean)
+          : currentBoard.every(Boolean)
           ? "Draw!"
           : `Next Player: ${isXNext ? "X" : "O"}`}
       </h2>
-      <button
-        style={{ marginTop: "20px", padding: "10px 20px", fontSize: "1rem" }}
-        onClick={() => {
-          setBoard(Array(9).fill(null));
-          setIsXNext(true);
-        }}
-      >
-        Restart
-      </button>
+
+      <div style={{ marginTop: "20px" }}>
+        <button
+          style={{ marginBottom: "10px", padding: "5px 15px" }}
+          onClick={() => {
+            setHistory([Array(9).fill(null)]);
+            setCurrentMove(0);
+          }}
+        >
+          Restart
+        </button>
+
+        <ol>
+          {history.map((_, move) => (
+            <li key={move}>
+              <button onClick={() => jumpTo(move)}>
+                {move === 0 ? "Go to game start" : `Go to move #${move}`}
+              </button>
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   );
 };
