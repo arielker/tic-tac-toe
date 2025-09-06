@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Board } from "./components/Board";
 import { calculateWinner } from "./utils/calculateWinner";
 import { Box, Button, Typography, Paper, List, ListItem } from "@mui/material";
+import { getWinningSquares } from "./utils/getWinningSquares";
 
 const App: React.FC = () => {
   const [history, setHistory] = useState<Array<Array<string | null>>>([
@@ -26,6 +27,7 @@ const App: React.FC = () => {
   const jumpTo = (move: number) => setCurrentMove(move);
 
   const winner = calculateWinner(currentBoard);
+  const winningSquares = winner ? getWinningSquares(currentBoard) : [];
 
   return (
     <Box
@@ -43,7 +45,12 @@ const App: React.FC = () => {
           <Typography variant="h4" textAlign="center" gutterBottom>
             Tic Tac Toe
           </Typography>
-          <Board board={currentBoard} onClick={handleClick} />
+          <Board
+            board={currentBoard}
+            onClick={handleClick}
+            winningSquares={winningSquares}
+          />
+
           <Typography variant="h6" textAlign="center" sx={{ marginTop: 2 }}>
             {winner
               ? `Winner: ${winner}`

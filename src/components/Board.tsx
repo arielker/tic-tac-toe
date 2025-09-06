@@ -1,16 +1,24 @@
-// components/Board.tsx
-import React from "react";
 import { Box } from "@mui/material";
 import { Square } from "./Square";
 
 type BoardProps = {
   board: Array<string | null>;
   onClick: (index: number) => void;
+  winningSquares?: number[];
 };
 
-export const Board: React.FC<BoardProps> = ({ board, onClick }) => {
+export const Board: React.FC<BoardProps> = ({
+  board,
+  onClick,
+  winningSquares = [],
+}) => {
   const renderSquare = (i: number) => (
-    <Square key={i} value={board[i]} onClick={() => onClick(i)} />
+    <Square
+      key={i}
+      value={board[i]}
+      onClick={() => onClick(i)}
+      highlight={winningSquares.includes(i)}
+    />
   );
 
   return (
