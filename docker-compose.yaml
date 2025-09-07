@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: tic-server
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health || exit 1"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: tic-client
+    restart: unless-stopped
+    ports:
+      - "3001:80" # maps nginx 80 -> host 3001
+    depends_on:
+      - server

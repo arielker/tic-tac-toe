@@ -7,6 +7,7 @@ const PORT = 3000;
 // Middleware to parse JSON
 app.use(express.json());
 app.use(cors());
+app.get("/health", (_req, res) => res.send("ok"));
 
 // In-memory storage for victories
 const victories: Record<"X" | "O", number> = {
