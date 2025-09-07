@@ -1,21 +1,28 @@
-# server/Dockerfile
-# build stage
+# --- Builder stage ---
 FROM node:18-alpine AS builder
 WORKDIR /app
-COPY package.json package-lock.json* tsconfig.json ./
-RUN npm ci --silent
-COPY ./src ./src
-# compile TypeScript to /app/dist
+
+# Install deps
+COPY package*.json ./
+RUN npm ci
+
+# Copy TS config + source
+COPY tsconfig.json ./
+COPY src ./src
+
+# Build TS → JS
 RUN npm run build
 
-# runtime stage
-FROM node:18-alpine
+# --- Runner stage ---
+FROM node:18-alpine AS runner
 WORKDIR /app
-# production deps only
-COPY package.json package-lock.json* ./
-RUN npm ci --only=production --silent
+
+# Only production deps
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+# Copy built code
 COPY --from=builder /app/dist ./dist
-# expose port used by server
-ENV PORT=4000
-EXPOSE 4000
+
+EXPOSE 3000
 CMD ["node", "dist/server.js"]
