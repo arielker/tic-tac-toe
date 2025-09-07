@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev # dev Dockerfile
+    environment:
+      - REACT_APP_API_URL=http://localhost:3000
+    volumes:
+      - ./client/package.json:/app/package.json
+      - ./client/package-lock.json:/app/package-lock.json
+      - ./client/src:/app/src
+      - ./client/public:/app/public
+    ports:
+      - "3002:3000" # React dev server
+    command: npm start

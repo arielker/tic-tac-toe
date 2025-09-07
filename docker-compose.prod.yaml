@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    environment:
+      - REACT_APP_API_URL=http://localhost:3000
+    ports:
+      - "3001:80"
