@@ -7,7 +7,7 @@ export type VictoriesResponse = {
 };
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:3000",
+  baseURL: process.env.REACT_APP_API_URL || "/api",
 });
 
 export const updateVictory = async (

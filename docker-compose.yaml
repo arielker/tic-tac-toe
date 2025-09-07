@@ -3,10 +3,12 @@ services:
   server:
     build:
       context: ./server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: tic-server
+    environment:
+      - PORT=4000
     ports:
-      - "3000:3000"
+      - "4000:4000"
 
   client:
     build:

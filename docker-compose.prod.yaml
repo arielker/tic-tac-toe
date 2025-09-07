@@ -1,10 +1,18 @@
 version: "3.8"
 services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+    environment:
+      - PORT=4000
+    ports:
+      - "4000:4000"
   client:
     build:
       context: ./client
       dockerfile: Dockerfile.prod
     environment:
-      - REACT_APP_API_URL=http://localhost:3000
+      - REACT_APP_API_URL=http://localhost:4000
     ports:
       - "3001:80"

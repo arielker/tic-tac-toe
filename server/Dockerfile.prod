@@ -1,0 +1,28 @@
+# server/Dockerfile.prod
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy all source files
+COPY . .
+
+# Build TypeScript
+RUN npm run build
+
+# --- Production image ---
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy only built files and node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY package*.json ./
+
+EXPOSE 4000
+
+CMD ["node", "dist/server.js"]
