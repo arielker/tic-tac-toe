@@ -1,6 +1,8 @@
 version: "3.8"
 services:
   server:
+    container_name: tic-server-prod
+    image: ttc-server-prod:latest
     build:
       context: ./server
       dockerfile: Dockerfile.prod
@@ -9,6 +11,8 @@ services:
     ports:
       - "4000:4000"
   client:
+    container_name: tic-client-prod
+    image: ttc-client-prod:latest
     build:
       context: ./client
       dockerfile: Dockerfile.prod

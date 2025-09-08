@@ -34,3 +34,11 @@ client/.env.*.local
 
 # OS
 Thumbs.db
+
+# archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.tar
+*.gz
